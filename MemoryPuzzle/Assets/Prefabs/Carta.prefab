@@ -73,9 +73,10 @@ GameObject:
   - component: {fileID: 9098551618270935181}
   - component: {fileID: 9098551618270935180}
   - component: {fileID: 9098551618270935179}
+  - component: {fileID: 3638830912364422430}
   m_Layer: 0
   m_Name: Carta
-  m_TagString: Untagged
+  m_TagString: Carta
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,6 +146,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3638830912364422430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098551618270935176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d6264fd8526b4418911a54104929b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9098551619507288682
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class FuncoesDoDeck : MonoBehaviour
     public float velocidadeDeDistribuicaoDeCartas = 0.8f;
     public float tempoEntreDistribuicaoDeCartas = 0.15f;
     public GameObject prefabCarta;
+    public List<Carta> possiveisCartas;
 
     // Variáveis Acessiveis De Dentro Da Classe
     private List<Vector3> posicoesDasCartas = new List<Vector3>();
@@ -122,6 +123,12 @@ public class FuncoesDoDeck : MonoBehaviour
 
             // Adiciona A Carta Ao Deck
             cartaIniciada.transform.parent = this.transform.Find("Cartas");
+
+            // Adiciona Um ID A Carta
+            cartaIniciada.transform.Find("Carta").GetComponent<ValoresDaCarta>().idDaCarta = this.possiveisCartas[(int) Mathf.Floor(indice/2)].idDaCarta;
+
+            // Muda O Visual Da Carta
+            cartaIniciada.transform.Find("Carta").GetComponentInChildren<MeshRenderer>().material = this.possiveisCartas[(int) Mathf.Floor(indice/2)].imagemDaCarta;
 
             // Pega A Posição Da Carta Criada
             posicaoDaCarta = cartaIniciada.transform.Find("Carta").Find("ParteDeTras").position;
