@@ -398,6 +398,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carta
       objectReference: {fileID: 0}
+    - target: {fileID: 9098551618270935178, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098551618270935178, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098551618270935178, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098551618270935178, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098551618270935178, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
 --- !u!1001 &475443745
@@ -1201,6 +1221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08242f0d95f22414fb1489611cd4eddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deckDeCartas: {fileID: 750990073}
 --- !u!4 &1234850183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9098551617925254727, guid: 9bf72761b5e385441b1e9aaa67bde508, type: 3}

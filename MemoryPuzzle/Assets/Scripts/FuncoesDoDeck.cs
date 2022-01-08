@@ -14,6 +14,7 @@ public class FuncoesDoDeck : MonoBehaviour
 
     // Variáveis Acessiveis De Dentro Da Classe
     private List<Vector3> posicoesDasCartas = new List<Vector3>();
+    private Vector3 posicaoFinalDasCartasDeVoltaParaODeck = Vector3.zero; 
 
     // Start is called before the first frame update
     void Start()
@@ -135,6 +136,60 @@ public class FuncoesDoDeck : MonoBehaviour
 
             // Adiciona Um Espaçamento Entre Cartas
             posicaoDaCarta.y += offSetEntreCartas;
+        }
+    }
+
+    // Função Para Mover Cartas De Volta Para O Deck
+    public IEnumerator moverCartasDeVoltaParaODeck(Transform[] cartas) {
+        // Move As Cartas De Volta Para O Deck
+        foreach (Transform carta in cartas)
+        {
+            IEnumerator coroutine = moverCartaDeVoltaParaODeck(carta, this.posicaoFinalDasCartasDeVoltaParaODeck);
+
+            StartCoroutine(coroutine);
+
+            this.posicaoFinalDasCartasDeVoltaParaODeck.y += carta.gameObject.GetComponentInChildren<BoxCollider>().size.y + this.offSetEntreCartas;
+            
+            yield return new WaitForSeconds(this.tempoEntreDistribuicaoDeCartas);
+        }
+    }
+
+    private IEnumerator moverCartaDeVoltaParaODeck(Transform carta, Vector3 posicaoFinal) {
+        // Pega A Posição Da Carta
+        var posicaoInicial = carta.localPosition;
+
+        // Calcula O Ponto De Controle
+        var pontoDeControle = new Vector3(
+            posicaoInicial.x + posicaoFinal.x,
+            posicaoInicial.y + 0.4f,
+            posicaoInicial.z + posicaoFinal.z
+        );
+
+        // Inicia A Posição Da Carta
+        Vector3 posicaoCarta = Vector3.zero;
+
+        // Inicia O Parametro De Interpolação
+        float tParametro = 0f;
+
+        while(tParametro < 1) {
+            // Incrementa O Parametro De Interpolação
+            tParametro += Time.deltaTime * this.velocidadeDeDistribuicaoDeCartas;
+
+            // Calcula A Posição Atual Da Curva
+            posicaoCarta = Mathf.Pow((1-tParametro),2) * posicaoInicial + 
+                            2 * tParametro * (1 - tParametro) * pontoDeControle +
+                            Mathf.Pow(tParametro,2) * posicaoFinal;
+
+            // Seta A Posição Da Carta
+            carta.localPosition = posicaoCarta;
+
+            // Espera O Próximo Frame Para Continuar
+            yield return new WaitForEndOfFrame();
+        }
+
+        // Ajusta A Posição Final, Se Houver Algum Erro        
+        if (posicaoCarta != posicaoFinal) {
+            carta.localPosition = posicaoFinal;
         }
     }
 }
