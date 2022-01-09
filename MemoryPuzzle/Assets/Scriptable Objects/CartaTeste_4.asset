@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdc7d0e0913d1b44a8797bc56c42df3, type: 3}
   m_Name: CartaTeste_4
   m_EditorClassIdentifier: 
-  imagemDaCarta: {fileID: 2100000, guid: d2ce971ec769d0e4e94d2de1fe038d79, type: 2}
+  imagemDaCarta: {fileID: 2100000, guid: c521135bffd73de4fa3de8570082274a, type: 2}
   idDaCarta: 3

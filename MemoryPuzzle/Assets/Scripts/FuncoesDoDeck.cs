@@ -13,6 +13,9 @@ public class FuncoesDoDeck : MonoBehaviour
     public List<Carta> possiveisCartas;
 
     // Variáveis Acessiveis De Dentro Da Classe
+    private List<Transform> cartasDoDeck = new List<Transform>();
+    private List<Vector3> posicoesDasCartasNoDeck = new List<Vector3>();
+    private List<Vector3> novasPosicoesDasCartasNoDeck = new List<Vector3>();
     private List<Vector3> posicoesDasCartas = new List<Vector3>();
     private Vector3 posicaoFinalDasCartasDeVoltaParaODeck = Vector3.zero; 
 
@@ -22,17 +25,9 @@ public class FuncoesDoDeck : MonoBehaviour
         // Chama A Função Para Criar A Torre De Cartas
         this.criarTorreDeCartas();
 
-        // Inicia A Lista De Posições Das Cartas
-        posicoesDasCartas = new List<Vector3>();
+        this.novasPosicoesDasCartasNoDeck = this.embaralharListaDePosicoesDasCartasNoDeck(this.posicoesDasCartasNoDeck);
 
-        // Pega Todas As Posições Para As Cartas Irem
-        foreach (Transform children in this.transform.Find("Possiveis Posicoes Das Cartas"))
-        {
-            posicoesDasCartas.Add(children.localPosition);
-        }
-
-        // Começar A Distribuir As Cartas Na Mesa
-        StartCoroutine(this.moverTodasAsCartas());
+        StartCoroutine(this.animacaoDeEmbaralharCartas());
     }
 
     // Distribuir As Cartas Na Mesa
@@ -41,7 +36,7 @@ public class FuncoesDoDeck : MonoBehaviour
         List<Transform> cartasCimaParaBaixo = new List<Transform>();
 
         // Pega Todas As Cartas Da Torre De Cartas
-        foreach (Transform item in this.transform.Find("Cartas"))
+        foreach (Transform item in this.cartasDoDeck)
         {
             cartasCimaParaBaixo.Add(item);
         }
@@ -66,9 +61,9 @@ public class FuncoesDoDeck : MonoBehaviour
 
         // Calcula O Ponto De Controle
         var pontoDeControle = new Vector3(
-            posicaoInicial.x + posicaoFinal.x,
+            posicaoInicial.x + posicaoFinal.x / 2,
             posicaoInicial.y + 0.4f,
-            posicaoInicial.z + posicaoFinal.z
+            posicaoInicial.z + posicaoFinal.z / 2
         );
 
         // Inicia A Posição Da Carta
@@ -115,6 +110,10 @@ public class FuncoesDoDeck : MonoBehaviour
         // Pega A Posição Da Base Da Torre De Cartas
         var posicaoDaCarta = this.transform.position;
 
+        // Duplica E Embaralha As Possiveis Cartas
+        List<Carta> cartasEmbaralhadas = this.embaralharListaDePossiveisCartas(this.duplicarListaDePossiveisCartas(this.possiveisCartas));
+
+        // Inicia A Variavel
         GameObject cartaIniciada;
 
         for (int indice = 0; indice < numeroDeCartas; indice++)
@@ -126,10 +125,16 @@ public class FuncoesDoDeck : MonoBehaviour
             cartaIniciada.transform.parent = this.transform.Find("Cartas");
 
             // Adiciona Um ID A Carta
-            cartaIniciada.transform.Find("Carta").GetComponent<ValoresDaCarta>().idDaCarta = this.possiveisCartas[(int) Mathf.Floor(indice/2)].idDaCarta;
+            cartaIniciada.transform.Find("Carta").GetComponent<ValoresDaCarta>().idDaCarta = cartasEmbaralhadas[indice].idDaCarta;
 
             // Muda O Visual Da Carta
-            cartaIniciada.transform.Find("Carta").GetComponentInChildren<MeshRenderer>().material = this.possiveisCartas[(int) Mathf.Floor(indice/2)].imagemDaCarta;
+            cartaIniciada.transform.Find("Carta").GetComponentInChildren<MeshRenderer>().material = cartasEmbaralhadas[indice].imagemDaCarta;
+
+            // Adiciona As Cartas À Lista
+            this.cartasDoDeck.Add(cartaIniciada.transform);
+
+            // Adiciona A Posição Das Cartas À Lista
+            this.posicoesDasCartasNoDeck.Add(cartaIniciada.transform.localPosition);
 
             // Pega A Posição Da Carta Criada
             posicaoDaCarta = cartaIniciada.transform.Find("Carta").Find("ParteDeTras").position;
@@ -144,7 +149,7 @@ public class FuncoesDoDeck : MonoBehaviour
         // Move As Cartas De Volta Para O Deck
         foreach (Transform carta in cartas)
         {
-            IEnumerator coroutine = moverCartaDeVoltaParaODeck(carta, this.posicaoFinalDasCartasDeVoltaParaODeck);
+            IEnumerator coroutine = moverCarta(carta, this.posicaoFinalDasCartasDeVoltaParaODeck);
 
             StartCoroutine(coroutine);
 
@@ -154,15 +159,60 @@ public class FuncoesDoDeck : MonoBehaviour
         }
     }
 
-    private IEnumerator moverCartaDeVoltaParaODeck(Transform carta, Vector3 posicaoFinal) {
+    // Duplica A Lista De Possiveis Cartas
+    private List<Carta> duplicarListaDePossiveisCartas(List<Carta> cartas) {
+        List<Carta> novaListaDuplicada = new List<Carta>();
+
+        for (int indice = 0; indice < cartas.Count * 2; indice++)
+        {
+            novaListaDuplicada.Add(cartas[indice % cartas.Count]);
+        }
+
+        return novaListaDuplicada;
+    }
+
+    // Embaralha A Lista De Possiveis Cartas
+    private List<Carta> embaralharListaDePossiveisCartas(List<Carta> cartas) {
+        List<Carta> novaListaEmbaralhada = new List<Carta>();
+
+        int tamanhoDaLista = cartas.Count;
+
+        for (int indice = 0; indice < tamanhoDaLista; indice++)
+        {
+            int posicaoParaPegar = Random.Range(0,cartas.Count);
+            novaListaEmbaralhada.Add(cartas[posicaoParaPegar]);
+            cartas.RemoveAt(posicaoParaPegar);
+        }
+
+        return novaListaEmbaralhada;
+    }
+
+    // Embaralha A Lista De Posições Das Cartas No Deck
+    private List<Vector3> embaralharListaDePosicoesDasCartasNoDeck(List<Vector3> posicoesCartasNoDeck) {
+        List<Vector3> novaListaEmbaralhada = new List<Vector3>();
+
+        int tamanhoDaLista = posicoesCartasNoDeck.Count;
+
+        for (int indice = 0; indice < tamanhoDaLista; indice++)
+        {
+            int posicaoParaPegar = Random.Range(0,posicoesCartasNoDeck.Count);
+            novaListaEmbaralhada.Add(posicoesCartasNoDeck[posicaoParaPegar]);
+            posicoesCartasNoDeck.RemoveAt(posicaoParaPegar);
+        }
+
+        return novaListaEmbaralhada;
+    }
+
+    // Distribui Cada Carta Da Torre
+    private IEnumerator moverCartaParaEmbaralhar(Transform carta, Vector3 posicaoFinal, int indice) {
         // Pega A Posição Da Carta
         var posicaoInicial = carta.localPosition;
 
         // Calcula O Ponto De Controle
         var pontoDeControle = new Vector3(
-            posicaoInicial.x + posicaoFinal.x,
-            posicaoInicial.y + 0.4f,
-            posicaoInicial.z + posicaoFinal.z
+            posicaoInicial.x + (indice % 2 == 0? 0.2f:-0.2f),//0.4f,//(0.4f * Random.Range(0,2) == 1? 1 : -1),
+            posicaoInicial.y + posicaoFinal.y / 2,
+            posicaoInicial.z
         );
 
         // Inicia A Posição Da Carta
@@ -190,6 +240,54 @@ public class FuncoesDoDeck : MonoBehaviour
         // Ajusta A Posição Final, Se Houver Algum Erro        
         if (posicaoCarta != posicaoFinal) {
             carta.localPosition = posicaoFinal;
+        }
+    }
+
+    // Gera A Animação De Embaralhar As Cartas
+    private IEnumerator animacaoDeEmbaralharCartas() {
+        List<Coroutine> coroutines = new List<Coroutine>();
+
+        // Inicializa As Corotinas Para Mover As Cartas No Baralho
+        for (int indice = 0; indice < this.cartasDoDeck.Count; indice++)
+        {
+            IEnumerator coroutine = this.moverCartaParaEmbaralhar(this.cartasDoDeck[indice],this.novasPosicoesDasCartasNoDeck[indice],indice);
+            coroutines.Add(StartCoroutine(coroutine));
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // Espera Todas As Coroutinas Acabarem
+        foreach (Coroutine coroutine in coroutines)
+        {
+            yield return coroutine;
+        }
+
+        this.ordenarCartasDoDeckDeCimaParaBaixo();
+
+        // Inicia A Lista De Posições Das Cartas
+        posicoesDasCartas = new List<Vector3>();
+
+        // Pega Todas As Posições Para As Cartas Irem
+        foreach (Transform children in this.transform.Find("Possiveis Posicoes Das Cartas"))
+        {
+            posicoesDasCartas.Add(children.localPosition);
+        }
+
+        // Começar A Distribuir As Cartas Na Mesa
+        StartCoroutine(this.moverTodasAsCartas());
+    }
+
+    // Usa O Algoritmo De Bubble Sort Para Ordenar As Cartas
+    private void ordenarCartasDoDeckDeCimaParaBaixo() {
+        for (int indice = 0; indice < this.cartasDoDeck.Count; indice++)
+        {
+            for (int indiceInterno = 0; indiceInterno < this.cartasDoDeck.Count - 1; indiceInterno++) {
+                if (this.cartasDoDeck[indiceInterno].localPosition.y > this.cartasDoDeck[indiceInterno + 1].localPosition.y) {
+                    Transform temp = this.cartasDoDeck[indiceInterno];
+                    this.cartasDoDeck[indiceInterno] = this.cartasDoDeck[indiceInterno + 1];
+                    this.cartasDoDeck[indiceInterno + 1] = temp;
+                }
+            }
         }
     }
 }
