@@ -640,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &629958787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,7 +991,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 922411432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1343360588}
+        m_TargetAssemblyTypeName: SistemaDoJogo, Assembly-CSharp
+        m_MethodName: comecarJogo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &922411432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1056,8 +1068,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1482398407}
+  m_Children: []
   m_Father: {fileID: 750990075}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1488,6 +1499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deckDeCartas: {fileID: 750990073}
+  podeClicarEmUmaCarta: 0
 --- !u!4 &1234850183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9098551617925254727, guid: 9bf72761b5e385441b1e9aaa67bde508, type: 3}
@@ -1611,6 +1623,53 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1343360587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1343360589}
+  - component: {fileID: 1343360588}
+  m_Layer: 0
+  m_Name: Sistema
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1343360588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343360587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e3f37fe862da249ac04b36860cb9cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animadorDoMenuInicial: {fileID: 629958791}
+  animadorDoDeck: {fileID: 750990076}
+  deck: {fileID: 750990074}
+  jogador: {fileID: 1157151526}
+--- !u!4 &1343360589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343360587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1379930713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1787,68 +1846,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bf72761b5e385441b1e9aaa67bde508, type: 3}
---- !u!1001 &1482398406
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 947276909}
-    m_Modifications:
-    - target: {fileID: 9098551617925254724, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_Name
-      value: Carta
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
---- !u!4 &1482398407 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9098551617925254727, guid: b4137e8f8604a5041bda766f1aa57398, type: 3}
-  m_PrefabInstance: {fileID: 1482398406}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1485580917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9098551617925254727, guid: 9bf72761b5e385441b1e9aaa67bde508, type: 3}

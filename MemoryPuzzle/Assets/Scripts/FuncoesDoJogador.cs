@@ -5,10 +5,10 @@ using UnityEngine;
 public class FuncoesDoJogador : MonoBehaviour
 {
     public GameObject deckDeCartas;
+    public bool podeClicarEmUmaCarta = false;
 
     // Variáveis Acessiveis De Dentro Da Classe
     private GameObject primeiraCartaSelecionada = null;
-    private bool podeClicarEmUmaCarta = true;
     private int pontuacaoDoJogador = 0;
 
     // Start is called before the first frame update
@@ -74,7 +74,6 @@ public class FuncoesDoJogador : MonoBehaviour
         while (cartaAAbrir.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name == "Carta_Abrir") {
             yield return new WaitForEndOfFrame();
         }
-
 
         // Avalia Se As Duas Cartas São Iguais
         if (primeiraCartaSelecionada.GetComponent<ValoresDaCarta>().idDaCarta == cartaAAbrir.GetComponent<ValoresDaCarta>().idDaCarta) {

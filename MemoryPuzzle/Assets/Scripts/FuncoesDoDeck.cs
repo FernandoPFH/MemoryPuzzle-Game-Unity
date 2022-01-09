@@ -26,31 +26,28 @@ public class FuncoesDoDeck : MonoBehaviour
         this.criarTorreDeCartas();
 
         this.novasPosicoesDasCartasNoDeck = this.embaralharListaDePosicoesDasCartasNoDeck(this.posicoesDasCartasNoDeck);
-
-        StartCoroutine(this.animacaoDeEmbaralharCartas());
     }
 
     // Distribuir As Cartas Na Mesa
-    private IEnumerator moverTodasAsCartas() {
-        // Inicia A Lista De Cartas De Cima Para Baixo Em Relação A Torre De Cartas
-        List<Transform> cartasCimaParaBaixo = new List<Transform>();
-
-        // Pega Todas As Cartas Da Torre De Cartas
-        foreach (Transform item in this.cartasDoDeck)
-        {
-            cartasCimaParaBaixo.Add(item);
-        }
+    public IEnumerator moverTodasAsCartas() {
+        List<Coroutine> coroutines = new List<Coroutine>();
 
         // Reverse A Lista
-        cartasCimaParaBaixo.Reverse();
+        this.cartasDoDeck.Reverse();
 
         // Começa A Distribuir Cada Carta
         for (int indice = 0; indice < this.numeroDeCartas; indice++)
         {
-            IEnumerator coroutine = moverCarta(cartasCimaParaBaixo[indice], posicoesDasCartas[indice]);
-            StartCoroutine(coroutine);
+            IEnumerator coroutine = moverCarta(this.cartasDoDeck[indice], posicoesDasCartas[indice]);
+            coroutines.Add(StartCoroutine(coroutine));
 
             yield return new WaitForSeconds(this.tempoEntreDistribuicaoDeCartas);
+        }
+
+        // Espera Todas As Coroutinas Acabarem
+        foreach (Coroutine coroutine in coroutines)
+        {
+            yield return coroutine;
         }
     }
 
@@ -244,7 +241,7 @@ public class FuncoesDoDeck : MonoBehaviour
     }
 
     // Gera A Animação De Embaralhar As Cartas
-    private IEnumerator animacaoDeEmbaralharCartas() {
+    public IEnumerator animacaoDeEmbaralharCartas() {
         List<Coroutine> coroutines = new List<Coroutine>();
 
         // Inicializa As Corotinas Para Mover As Cartas No Baralho
@@ -272,9 +269,6 @@ public class FuncoesDoDeck : MonoBehaviour
         {
             posicoesDasCartas.Add(children.localPosition);
         }
-
-        // Começar A Distribuir As Cartas Na Mesa
-        StartCoroutine(this.moverTodasAsCartas());
     }
 
     // Usa O Algoritmo De Bubble Sort Para Ordenar As Cartas
