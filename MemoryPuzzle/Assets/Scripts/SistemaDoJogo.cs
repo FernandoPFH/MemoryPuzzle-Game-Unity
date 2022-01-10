@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SistemaDoJogo : MonoBehaviour
 {
@@ -8,11 +9,15 @@ public class SistemaDoJogo : MonoBehaviour
     public Animator animadorDoDeck;
     public FuncoesDoDeck deck;
     public FuncoesDoJogador jogador;
+    public TextMeshProUGUI pontuacao;
+    public TextMeshProUGUI tentativas;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Inicia O Painel De Pontuação E Tentativas
+        this.mudarPontuacao(0);
+        this.mudarTentativas(0);
     }
 
     // Update is called once per frame
@@ -56,11 +61,24 @@ public class SistemaDoJogo : MonoBehaviour
         while (animadorDoDeck.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Deck_VoltarDaCamera" ) {
             yield return new WaitForEndOfFrame();
         }
+
+        // Habilitar Painel De Pontuação
+        this.pontuacao.transform.parent.parent.gameObject.SetActive(true);
         
         // Começar A Distribuir As Cartas Na Mesa
         yield return StartCoroutine(deck.moverTodasAsCartas());
 
         // Habilita O Jogador A Clicar Nas Cartas
         jogador.podeClicarEmUmaCarta = true;
+    }
+
+    // Muda A Pontuação Do Painel
+    public void mudarPontuacao(int pontuacao) {
+        this.pontuacao.SetText(pontuacao.ToString());
+    }
+
+    // Muda As Tentaivas Do Painel
+    public void mudarTentativas(int tentativas) {
+        this.tentativas.SetText(tentativas.ToString());
     }
 }

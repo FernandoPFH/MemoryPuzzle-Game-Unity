@@ -5,11 +5,13 @@ using UnityEngine;
 public class FuncoesDoJogador : MonoBehaviour
 {
     public GameObject deckDeCartas;
+    public SistemaDoJogo sistema;
     public bool podeClicarEmUmaCarta = false;
 
     // Variáveis Acessiveis De Dentro Da Classe
     private GameObject primeiraCartaSelecionada = null;
     private int pontuacaoDoJogador = 0;
+    private int tentativaDoJogador = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +77,10 @@ public class FuncoesDoJogador : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        // Muda Pontuação Do Jogador
+        this.tentativaDoJogador += 1;
+        this.sistema.mudarTentativas(this.tentativaDoJogador);
+
         // Avalia Se As Duas Cartas São Iguais
         if (primeiraCartaSelecionada.GetComponent<ValoresDaCarta>().idDaCarta == cartaAAbrir.GetComponent<ValoresDaCarta>().idDaCarta) {
             // Espera Um Tempo
@@ -92,7 +98,9 @@ public class FuncoesDoJogador : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            pontuacaoDoJogador += 1;
+            // Muda Pontuação Do Jogador
+            this.pontuacaoDoJogador += 1;
+            this.sistema.mudarPontuacao(this.pontuacaoDoJogador);
 
             // Retira A Tag Do Objeto
             primeiraCartaSelecionada.tag = "Untagged";
