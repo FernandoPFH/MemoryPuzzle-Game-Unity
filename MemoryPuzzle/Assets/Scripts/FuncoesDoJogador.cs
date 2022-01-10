@@ -102,6 +102,11 @@ public class FuncoesDoJogador : MonoBehaviour
             this.pontuacaoDoJogador += 1;
             this.sistema.mudarPontuacao(this.pontuacaoDoJogador);
 
+            // Checa Se A Pontuação Do Jogo É O Suficiente Para Vencer
+            if (deckDeCartas.GetComponent<FuncoesDoDeck>().numeroDeCartas / 2 == this.pontuacaoDoJogador) {
+                this.sistema.vencerJogo();
+            }
+
             // Retira A Tag Do Objeto
             primeiraCartaSelecionada.tag = "Untagged";
             cartaAAbrir.tag = "Untagged";

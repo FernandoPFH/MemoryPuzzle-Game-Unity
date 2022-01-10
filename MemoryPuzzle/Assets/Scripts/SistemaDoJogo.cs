@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SistemaDoJogo : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class SistemaDoJogo : MonoBehaviour
     public Animator animadorDoDeck;
     public FuncoesDoDeck deck;
     public FuncoesDoJogador jogador;
-    public TextMeshProUGUI pontuacao;
-    public TextMeshProUGUI tentativas;
+    public TextMeshProUGUI pontuacaoPainelPontuacao;
+    public TextMeshProUGUI tentativasPainelPontuacao;
+    public TextMeshProUGUI tentativasPainelFinal;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +65,7 @@ public class SistemaDoJogo : MonoBehaviour
         }
 
         // Habilitar Painel De Pontuação
-        this.pontuacao.transform.parent.parent.gameObject.SetActive(true);
+        this.pontuacaoPainelPontuacao.transform.parent.parent.gameObject.SetActive(true);
         
         // Começar A Distribuir As Cartas Na Mesa
         yield return StartCoroutine(deck.moverTodasAsCartas());
@@ -74,11 +76,25 @@ public class SistemaDoJogo : MonoBehaviour
 
     // Muda A Pontuação Do Painel
     public void mudarPontuacao(int pontuacao) {
-        this.pontuacao.SetText(pontuacao.ToString());
+        this.pontuacaoPainelPontuacao.SetText(pontuacao.ToString());
     }
 
     // Muda As Tentaivas Do Painel
     public void mudarTentativas(int tentativas) {
-        this.tentativas.SetText(tentativas.ToString());
+        this.tentativasPainelPontuacao.SetText(tentativas.ToString());
+        this.tentativasPainelFinal.SetText(tentativas.ToString());
+    }
+
+    public void vencerJogo() {
+        // Habilitar Painel De Pontuação
+        this.pontuacaoPainelPontuacao.transform.parent.parent.gameObject.SetActive(false);
+
+        // Habilitar Painel De Menu Final
+        this.tentativasPainelFinal.transform.parent.parent.gameObject.SetActive(true);
+    }
+
+    // Recomeça Jogo
+    public void recomecarJogo() {
+        SceneManager.LoadScene(0);
     }
 }
