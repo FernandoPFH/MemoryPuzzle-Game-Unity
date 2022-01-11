@@ -3002,6 +3002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1157151525}
   - component: {fileID: 1157151526}
+  - component: {fileID: 1157151527}
   m_Layer: 0
   m_Name: Jogador
   m_TagString: Untagged
@@ -3038,6 +3039,18 @@ MonoBehaviour:
   deckDeCartas: {fileID: 750990073}
   sistema: {fileID: 1343360588}
   podeClicarEmUmaCarta: 0
+--- !u!114 &1157151527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157151524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d44dcc2efc8fb754e95466e9591d331b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1206958807 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9098551617925254727, guid: 9bf72761b5e385441b1e9aaa67bde508, type: 3}
